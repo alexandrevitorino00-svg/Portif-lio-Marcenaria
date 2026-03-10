@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<style>
+    /* Organiza os cards lado a lado em telas grandes e empilha no celular */
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    /* Estilo dos Cards Superiores */
+    .dashboard-card {
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        border-left: 5px solid #2c7be5; 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .dashboard-card h3 {
+        margin: 0;
+        font-size: 1.05rem;
+        color: #64748b;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .dashboard-card .numero {
+        margin: 10px 0 0 0;
+        font-size: 2.2rem;
+        font-weight: bold;
+        color: #1e293b;
+    }
+
+    /* Cores das bordas laterais  */
+    .card-clientes { border-left-color: #3b82f6; }   
+    .card-orcamentos { border-left-color: #8b5cf6; } 
+    .card-producao { border-left-color: #f59e0b; }   
+    .card-finalizados { border-left-color: #10b981; } 
+
+    .tabela-projetos {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .tabela-projetos th {
+        background-color: #f8fafc;
+        color: #64748b;
+        font-weight: 600;
+        text-align: left;
+        padding: 12px 15px;
+        border-bottom: 2px solid #e2e8f0;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+    }
+
+    .tabela-projetos td {
+        padding: 15px;
+        border-bottom: 1px solid #f1f5f9;
+        color: #334155;
+        font-size: 0.95rem;
+    }
+
+    .tabela-projetos tr:hover {
+        background-color: #f8fafc; 
+    }
+
+
+    .badge {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        display: inline-block;
+    }
+    .badge-planejamento { background: #e0e8f9; color: #2c7be5; }
+    .badge-producao { background: #fef0c7; color: #b54708; }
+    .badge-finalizado { background: #d1fadf; color: #027a48; }
+</style>
+
+<h1 style="margin-bottom: 25px; color: #1e293b;">Dashboard</h1>
+
+<div class="dashboard-grid">
+    <div class="dashboard-card card-clientes">
+        <h3>Clientes</h3>
+        <p class="numero">{{ total_clientes | default(0) }}</p>
+    </div>
+
+    <div class="dashboard-card card-orcamentos">
+        <h3>Orçamentos</h3>
+        <p class="numero">{{ total_orcamentos | default(0) }}</p>
+    </div>
+
+    <div class="dashboard-card card-producao">
+        <h3>Em Produção</h3>
+        <p class="numero">{{ projetos_producao | default(0) }}</p>
+    </div>
+
+    <div class="dashboard-card card-finalizados">
+        <h3>Finalizados</h3>
+        <p class="numero">{{ projetos_finalizados | default(0) }}</p>
+    </div>
+</div>
+
+<div class="card" style="padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); background: white;">
+    <h3 style="margin-bottom: 15px; color: #1e293b; font-size: 1.2rem;">Projetos Recentes</h3>
+    
+    <div style="overflow-x: auto;">
+        <table class="tabela-projetos">
+            <thead>
+                <tr>
+                    <th>Projeto</th>
+                    <th>Cliente</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for projeto in projetos_recentes %}
+                <tr>
+                    <td style="font-weight: 500;">{{ projeto.nome }}</td>
+                    <td>{{ projeto.cliente.nome }}</td>
+                    <td>
+                        {% if 'Planejamento' in projeto.status %}
+                            <span class="badge badge-planejamento">{{ projeto.status }}</span>
+                        {% elif 'Produção' in projeto.status %}
+                            <span class="badge badge-producao">{{ projeto.status }}</span>
+                        {% else %}
+                            <span class="badge badge-finalizado">{{ projeto.status }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3" style="text-align: center; color: #94a3b8; padding: 30px;">
+                        Nenhum projeto recente encontrado.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

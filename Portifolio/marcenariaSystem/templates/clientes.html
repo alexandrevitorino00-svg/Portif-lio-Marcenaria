@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<style>
+    
+    .tabela-clientes {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .tabela-clientes th {
+        background-color: #f8fafc;
+        color: #64748b;
+        font-weight: 600;
+        text-align: left;
+        padding: 12px 15px;
+        border-bottom: 2px solid #e2e8f0;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+    }
+
+    .tabela-clientes td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #f1f5f9;
+        vertical-align: middle;
+    }
+
+    .tabela-clientes input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 0.9rem;
+    }
+
+    .tabela-clientes input:focus {
+        border-color: #2c7be5;
+        outline: none;
+    }
+
+    .btn-acao {
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        border: none;
+        transition: opacity 0.2s;
+    }
+
+    .btn-salvar-tab { background-color: #10b981; color: white; }
+    .btn-excluir-tab { background-color: #ef4444; color: white; }
+    .btn-acao:hover { opacity: 0.85; }
+
+    .acoes-flex {
+        display: flex;
+        gap: 5px;
+        justify-content: center;
+    }
+</style>
+
+<h1 style="margin-bottom: 25px; color: #1e293b;">Gerenciamento de Clientes</h1>
+
+<div class="card" style="margin-bottom: 30px;">
+    <h3 style="margin-bottom: 20px; color: #1e293b;">Novo Cliente</h3>
+    
+    <form method="POST" action="/clientes">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+            <div>
+                <label style="display: block; margin-bottom: 5px; font-weight: 600;">Nome Completo</label>
+                <input type="text" name="nome" placeholder="Ex: João Silva" required 
+                       style="width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #ddd;">
+            </div>
+            <div>
+                <label style="display: block; margin-bottom: 5px; font-weight: 600;">Telefone / WhatsApp</label>
+                <input type="text" name="telefone" placeholder="(11) 99999-9999" 
+                       style="width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #ddd;">
+            </div>
+            <div>
+                <label style="display: block; margin-bottom: 5px; font-weight: 600;">E-mail</label>
+                <input type="email" name="email" placeholder="cliente@email.com" 
+                       style="width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #ddd;">
+            </div>
+        </div>
+        
+        <button type="submit" style="width: 100%; background-color: #2c7be5; color: white; padding: 12px; border: none; border-radius: 6px; font-weight: bold; font-size: 1rem; cursor: pointer;">
+            Cadastrar Cliente
+        </button>
+    </form>
+</div>
+
+<div class="card" style="padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); background: white;">
+    <h3 style="margin-bottom: 15px; color: #1e293b;">Clientes Cadastrados</h3>
+
+    <div style="overflow-x: auto;">
+        <table class="tabela-clientes">
+            <thead>
+                <tr>
+                    <th style="width: 30%;">Nome</th>
+                    <th style="width: 25%;">Telefone</th>
+                    <th style="width: 25%;">Email</th>
+                    <th style="width: 20%; text-align: center;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cliente in clientes %}
+                <tr>
+                    <form method="POST" action="/clientes/editar/{{ cliente.id }}">
+                        <td>
+                            <input type="text" name="nome" value="{{ cliente.nome }}" required>
+                        </td>
+                        <td>
+                            <input type="text" name="telefone" value="{{ cliente.telefone }}">
+                        </td>
+                        <td>
+                            <input type="email" name="email" value="{{ cliente.email }}">
+                        </td>
+                        <td>
+                            <div class="acoes-flex">
+                                <button type="submit" class="btn-acao btn-salvar-tab">Salvar</button>
+                                <a href="/clientes/deletar/{{ cliente.id }}" onclick="return confirm('Tem certeza que deseja excluir?')">
+                                    <button type="button" class="btn-acao btn-excluir-tab">Excluir</button>
+                                </a>
+                            </div>
+                        </td>
+                    </form>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" style="text-align: center; color: #94a3b8; padding: 30px;">
+                        Nenhum cliente encontrado no sistema.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

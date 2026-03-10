@@ -1,0 +1,130 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Corpo da página */
+body {
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif; /* Fonte levemente mais moderna */
+    background: #f4f6f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Estrutura Principal */
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 240px;
+    background: #1e293b;
+    color: white;
+    padding: 25px 15px;
+    flex-shrink: 0; /* Impede a sidebar de "espremer" */
+}
+
+.sidebar h2 {
+    margin-bottom: 30px;
+    font-size: 1.5rem;
+    text-align: center;
+    color: #fff;
+}
+
+.sidebar a {
+    display: block;
+    color: #cbd5e1;
+    text-decoration: none;
+    margin-bottom: 8px;
+    padding: 12px;
+    border-radius: 6px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.sidebar a:hover {
+    background: #334155;
+    color: white;
+}
+
+/* Conteúdo Principal */
+.conteudo {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+}
+
+/* Componentes (Cards e Containers) */
+.container, .card {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+    max-width: 1000px;
+}
+
+/* Tipografia */
+h1, h2 {
+    margin-bottom: 20px;
+    color: #1e293b;
+}
+
+/* Formulários */
+input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    outline-color: #2c7be5;
+}
+
+/* Botões */
+button {
+    background: #2c7be5;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: #1a5dc8;
+}
+
+/* Tabela */
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+th {
+    background: #f8fafc;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+}
+
+tr:hover {
+    background: #f1f5f9;
+}
+
+.sucesso { color: #10b981; margin-top: 10px; font-weight: 500; }
+.erro { color: #ef4444; margin-top: 10px; font-weight: 500; }
